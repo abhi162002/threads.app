@@ -41,7 +41,7 @@ function PostThread({ userId }: {userId: string}) {
     const router = useRouter();
     const pathname = usePathname();
 
-//   const { organization } = useOrganization();
+  const { organization } = useOrganization();
 
   //way of doing , valid means char must have size
   const form = useForm<z.infer<typeof ThreadValidation>>({
@@ -53,12 +53,12 @@ function PostThread({ userId }: {userId: string}) {
   });
 
     const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
-        await createThread({
-            text: values.thread,
-            author: userId,
-            communityId: null,
-            path: pathname,
-        });
+          await createThread({
+              text: values.thread,
+              author: userId,
+              communityId: organization ? organization.id : null,
+              path: pathname,
+          });
 
         router.push('/');
     }

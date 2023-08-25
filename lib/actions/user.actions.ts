@@ -13,7 +13,6 @@ export async function fetchUser(userId: string) {
   try {
     connectToDB();
 
-
     return await User.findOne({ id: userId }).populate({
       path: "communities",
       model: Community,
@@ -23,7 +22,6 @@ export async function fetchUser(userId: string) {
   }
 }
 
-//it get values 
 interface Params {
   userId: string;
   username: string;
@@ -34,7 +32,6 @@ interface Params {
 }
 
 export async function updateUser({
-  //here we are destructing so need not to be in order
   userId,
   bio,
   name,
@@ -54,11 +51,11 @@ export async function updateUser({
         image,
         onboarded: true,
       },
-      { upsert: true } //both updating and insert(if not exist)
+      { upsert: true }
     );
 
     if (path === "/profile/edit") {
-      revalidatePath(path); //while update can use to revalidate
+      revalidatePath(path);
     }
   } catch (error: any) {
     throw new Error(`Failed to create/update user: ${error.message}`);

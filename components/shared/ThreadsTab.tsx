@@ -2,6 +2,7 @@ import { fetchUser, fetchUserPosts } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import ThreadCard from "../cards/ThreadCard";
 import { currentUser } from "@clerk/nextjs";
+import { fetchCommunityPosts } from "@/lib/actions/community.action";
 
 interface Props {
     currentUserId: string;
@@ -14,12 +15,14 @@ const ThreadsTab = async ({
     accountId,
     accountType,
 }: Props) => {
-    let result = await fetchUserPosts(accountId);
+    let result: any;
+    if(accountType === 'Community'){
+        result = await fetchCommunityPosts(accountId);
+    }else{
+        result = await fetchUserPosts(accountId);
+    }
 
     if(!result) redirect('/');
-
-    const userInfo=await fetchUser(result.id);
-
 
   return (
     <section className="mt-9 flex flex-col gap-10">

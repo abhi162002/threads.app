@@ -54,7 +54,7 @@ export async function fetchCommunityDetails(id: string) {
     connectToDB();
 
     const communityDetails = await Community.findOne({ id }).populate([
-      "createdBy",
+      
       {
         path: "members",
         model: User,
